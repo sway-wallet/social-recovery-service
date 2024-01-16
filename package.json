@@ -6,6 +6,25 @@
     "apps",
     "packages/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sway-wallet/social-recovery-service.git"
+  },
+  "keywords": [
+    "zero knowledge",
+    "zero knowledge proof",
+    "social recovery Service",
+    "social recovery",
+    "zkp",
+    "guardian service",
+    "mina protocol",
+    "o1js",
+    "recover private key",
+    "recover mnemonic",
+    "bun workspaces",
+    "bun",
+    "bunjs"
+  ],
   "scripts": {
     "prepare": "husky install",
     "docker": "docker-compose up --d",
