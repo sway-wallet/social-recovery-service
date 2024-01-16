@@ -1,0 +1,28 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "printWidth": 120,
+  "useTabs": false,
+  "tabWidth": 2,
+  "plugins": ["prettier-plugin-solidity", "@trivago/prettier-plugin-sort-imports", "prettier-plugin-toml"],
+  "overrides": [
+    {
+      "files": "*.sol",
+      "options": {
+        "semi": true,
+        "singleQuote": false,
+        "tabWidth": 4
+      }
+    },
+    {
+      "files": "test/**/*.sol",
+      "options": {
+        "semi": true,
+        "singleQuote": false,
+        "tabWidth": 4
+      }
+    }
+  ]
+}

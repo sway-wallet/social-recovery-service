@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  social-recovery-ui:
+    image: docker.swaywallet.io/social-recovery-ui:latest
+    build: 
+      context: .
+      args:
+        appPort: ${SOCIAL_RECOVERY_UI_PORT}
+        nodeVersion: ${NODE_VERSION}
+    ports:
+      - ${SOCIAL_RECOVERY_UI_PORT}:${SOCIAL_RECOVERY_UI_PORT}
+    env_file:
+      - .env

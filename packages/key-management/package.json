@@ -1,0 +1,15 @@
+{
+  "name": "@sway-wallet/key-management",
+  "module": "index.ts",
+  "type": "module",
+  "dependencies": {
+    "@sway-wallet/common": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "zod": "^3.22.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

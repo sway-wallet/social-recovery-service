@@ -1,0 +1,32 @@
+{
+  "name": "workspaces",
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": [
+    "apps",
+    "packages/*"
+  ],
+  "scripts": {
+    "prepare": "husky install",
+    "docker": "docker-compose up --d",
+    "build": "bun run --cwd 'packages/social-recovery-service' --cwd 'packages/guardian-service' --cwd 'apps' build",
+    "test": "bun run --cwd 'packages/social-recovery-service' --cwd 'packages/guardian-service' test",
+    "test:cov": "bun run --cwd 'packages/social-recovery-service' --cwd 'packages/guardian-service' test:cov",
+    "docker:clean": "docker-compose down && docker rmi docker.swaywallet.io/social-recovery-service:latest docker.swaywallet.io/guardian-service:latest docker.swaywallet.io/social-recovery-ui:latest",
+    "clean": "rm -rf node_modules apps/node_modules packages/common/node_modules packages/key-management/node_modules packages/mina-core/node_modules packages/shamir/node_modules packages/social-recovery-service/node_modules packages/guardian-service/node_modules bun.lockb apps/bun.lockb packages/common/bun.lockb packages/key-management/bun.lockb packages/mina-core/bun.lockb packages/shamir/bun.lockb packages/social-recovery-service/bun.lockb packages/guardian-service/bun.lockb packages/social-recovery-service/dist packages/guardian-service/dist packages/social-recovery-service/coverage packages/guardian-service/coverage",
+    "prettier": "prettier --write --plugin=prettier-plugin-solidity --plugin=@trivago/prettier-plugin-sort-imports --plugin=prettier-plugin-toml .",
+    "lint": ""
+  },
+  "devDependencies": {
+    "@sway-wallet/social-recovery-service": "0.0.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/bun": "latest",
+    "husky": "^8.0.3",
+    "prettier": "3.2.2",
+    "prettier-plugin-solidity": "^1.3.1",
+    "prettier-plugin-toml": "2.0.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

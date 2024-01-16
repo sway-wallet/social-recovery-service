@@ -1,0 +1,12 @@
+{
+  "name": "@sway-wallet/mina-core",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "zod": "^3.22.4"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

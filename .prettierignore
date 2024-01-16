@@ -1,0 +1,9 @@
+.husky/
+artifacts/
+cache/
+coverage/
+lib/
+node_modules/
+typechain-types/
+out/
+packages/social-recovery-service
