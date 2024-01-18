@@ -1,6 +1,6 @@
 import { Wallet } from '../../domain/wallet';
 import { NullableType } from 'src/utils/types/nullable.type';
-import { FilterWalletDto, SortWalletDto } from '../../dto/query-Wallet.dto';
+import { SortWalletDto } from '../../dto/query-wallet.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { DeepPartial } from 'src/utils/types/deep-partial.type';
@@ -11,11 +11,9 @@ export abstract class WalletRepository {
   ): Promise<Wallet>;
 
   abstract findManyWithPagination({
-    filterOptions,
     sortOptions,
     paginationOptions,
   }: {
-    filterOptions?: FilterWalletDto | null;
     sortOptions?: SortWalletDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<Wallet[]>;

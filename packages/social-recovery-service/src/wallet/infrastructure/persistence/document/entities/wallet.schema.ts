@@ -63,11 +63,11 @@ export class WalletSchemaClass extends EntityDocumentHelper {
 
 export const WalletSchema = SchemaFactory.createForClass(WalletSchemaClass);
 
-WalletSchema.virtual('previousEncryptedPrivateKeySeed').get(function () {
-  return this.encryptedPrivateKeySeed;
-});
+// WalletSchema.virtual('previousEncryptedPrivateKeySeed').get(function () {
+//   return this.encryptedPrivateKeySeed;
+// });
 
-WalletSchema.virtual('previousEncryptedSeed').get(function () {
-  return this.encryptedSeed;
-});
+// WalletSchema.virtual('previousEncryptedSeed').get(function () {
+//   return this.encryptedSeed;
+// });
 

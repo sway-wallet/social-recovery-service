@@ -39,7 +39,7 @@ export class WalletEntity extends EntityRelationalHelper implements Wallet {
 
   @AfterLoad()
   public loadPreviousEncryptedPrivateKeySeed(): void {
-    this.previousEncryptedPrivateKeySeed = this.previousEncryptedPrivateKeySeed;
+    this.previousEncryptedPrivateKeySeed = this.encryptedPrivateKeySeed;
   }
 
   @Column({ type: String, unique: true, nullable: true })

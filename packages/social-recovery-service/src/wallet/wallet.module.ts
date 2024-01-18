@@ -3,7 +3,7 @@ import { WalletService } from './wallet.service';
 import { WalletController } from './wallet.controller';
 import databaseConfig from 'src/database/config/database.config';
 import { DatabaseConfig } from 'src/database/config/database-config.type';
-import { DocumentUserPersistenceModule } from 'src/wallet/infrastructure/persistence/document/document-persistence.module';
+import { DocumentWalletPersistenceModule } from 'src/wallet/infrastructure/persistence/document/document-persistence.module';
 import { RelationalWalletPersistenceModule } from 'src/wallet/infrastructure/persistence/relational/relational-persistence.module';
 import { FilesModule } from 'src/files/files.module';
 import { UsersModule } from 'src/users/users.module';
@@ -11,7 +11,7 @@ import { CryptographyModule } from 'src/cryptography/cryptography.module';
 
 const infrastructurePersistenceModule = (databaseConfig() as DatabaseConfig)
   .isDocumentDatabase
-  ? DocumentUserPersistenceModule
+  ? DocumentWalletPersistenceModule
   : RelationalWalletPersistenceModule;
   
 @Module({
