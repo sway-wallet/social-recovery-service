@@ -1,38 +1,22 @@
-ARG appPort
-FROM node:lts-slim as builder
+FROM node:20.11.0-alpine
 
-# Create app directory
+RUN apk add --no-cache bash
+RUN npm i -g @nestjs/cli typescript ts-node
+
+COPY package*.json /tmp/app/
+RUN cd /tmp/app && npm install
+
+COPY . /usr/src/app
+RUN cp -a /tmp/app/node_modules /usr/src/app
+COPY ./wait-for-it.sh /opt/wait-for-it.sh
+RUN chmod +x /opt/wait-for-it.sh
+COPY ./startup.relational.dev.sh /opt/startup.relational.dev.sh
+RUN chmod +x /opt/startup.relational.dev.sh
+RUN sed -i 's/\r//g' /opt/wait-for-it.sh
+RUN sed -i 's/\r//g' /opt/startup.relational.dev.sh
+
 WORKDIR /usr/src/app
+RUN if [ ! -f .env ]; then cp env-example-relational .env; fi
+RUN npm run build
 
-RUN echo "appPort: " $appPort
-
-#
-# Copy the lock file and app manifest, then install
-# the dependencies, including the dev dependencies
-#
-COPY package.json ./
-
-RUN yarn install --frozen-lockfile
-
-COPY . .
-
-RUN yarn build
-
-FROM node:lts-slim
-
-ENV NODE_ENV production
-
-USER node
-
-# Create app directory
-WORKDIR /usr/src/app
-
-COPY package.json ./
-
-RUN yarn install --production --frozen-lockfile
-
-COPY --from=builder /usr/src/app/dist ./dist
-
-EXPOSE $appPort
-
-CMD [ "node", "dist/main.js" ]
+CMD ["/opt/startup.relational.dev.sh"]

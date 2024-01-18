@@ -6,14 +6,14 @@ services:
       context: packages/social-recovery-service
       dockerfile: Dockerfile
       args:
-        appPort: ${SOCIAL_RECOVERY_SERVICE_PORT} || 8100
-        nodeVersion: ${NODE_VERSION} || 20
+        appPort: ${SOCIAL_RECOVERY_SERVICE_PORT}
+        nodeVersion: ${NODE_VERSION}
     ports:
       - ${SOCIAL_RECOVERY_SERVICE_PORT}:${SOCIAL_RECOVERY_SERVICE_PORT}
     env_file:
       - .env
     depends_on:
-      social-recovery-service-db:
+      postgres:
         condition: service_healthy
   guardian-service:
     image: docker.swaywallet.io/guardian-service:latest
@@ -21,14 +21,14 @@ services:
       context: packages/guardian-service
       dockerfile: Dockerfile
       args:
-        appPort: ${GUARDIAN_SERVICE_PORT} || 8200
-        nodeVersion: ${NODE_VERSION} || 20
+        appPort: ${GUARDIAN_SERVICE_PORT}
+        nodeVersion: ${NODE_VERSION}
     ports:
       - ${GUARDIAN_SERVICE_PORT}:${GUARDIAN_SERVICE_PORT}
     env_file:
       - .env
     depends_on:
-      social-recovery-service-db:
+      postgres:
         condition: service_healthy
   social-recovery-ui:
     image: docker.swaywallet.io/social-recovery-ui:latest
@@ -36,41 +36,25 @@ services:
       context: apps
       dockerfile: Dockerfile
       args:
-        appPort: ${SOCIAL_RECOVERY_UI_PORT} || 3000
+        appPort: ${SOCIAL_RECOVERY_UI_PORT}
         nodeVersion: ${NODE_VERSION}
     ports:
       - ${SOCIAL_RECOVERY_UI_PORT}:${SOCIAL_RECOVERY_UI_PORT}
     env_file:
       - .env
-  social-recovery-service-db:
+  postgres:
     image: postgres:16.1-bookworm
     restart: always
     environment:
-      - POSTGRES_USER=${SOCIAL_RECOVERY_SERVICE_DB_USER}
-      - POSTGRES_PASSWORD=${SOCIAL_RECOVERY_SERVICE_DB_PASSWORD}
-      - POSTGRES_DB=${SOCIAL_RECOVERY_SERVICE_DB_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
     ports:
-      - '${SOCIAL_RECOVERY_SERVICE_DB_PORT}:${SOCIAL_RECOVERY_SERVICE_DB_PORT}'
+      - '${DATABASE_PORT}:${DATABASE_PORT}'
     volumes:
-      - db:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD', 'pg_isready', '-U', 'postgres', '-d', 'social-recovery-service']
-      interval: 5s
-      timeout: 10s
-      retries: 5
-  guardian-service-db:
-    image: postgres:16.1-bookworm
-    restart: always
-    environment:
-      - POSTGRES_USER=${GUARDIAN_SERVICE_DB_USER}
-      - POSTGRES_PASSWORD=${GUARDIAN_SERVICE_DB_PASSWORD}
-      - POSTGRES_DB=${GUARDIAN_SERVICE_DB_NAME}
-    ports:
-      - '${GUARDIAN_SERVICE_DB_PORT}:${GUARDIAN_SERVICE_DB_PORT}'
-    volumes:
-      - db:/var/lib/postgresql/data
-    healthcheck:
-      test: ['CMD', 'pg_isready', '-U', 'postgres', '-d', 'guardian-service']
       interval: 5s
       timeout: 10s
       retries: 5
@@ -86,12 +70,10 @@ services:
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
-      social-recovery-service-db:
-        condition: service_healthy
-      guardian-service-db:
+      postgres:
         condition: service_healthy
 volumes:
-  db:
+  postgres:
     driver: local
   pgadmin-data:
     driver: local
