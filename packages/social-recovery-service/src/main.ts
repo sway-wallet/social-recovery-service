@@ -10,16 +10,19 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
-import { AllConfigType } from './config/config.type';
+
+if (!process.env.development) {
+  require('module-alias/register'); 
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  const configService = app.get(ConfigService<AllConfigType>);
+  const configService = new ConfigService();
 
   app.enableShutdownHooks();
   app.setGlobalPrefix(
-    configService.getOrThrow('app.apiPrefix', { infer: true }),
+    configService.getOrThrow<string>('API_PREFIX', { infer: true }),
     {
       exclude: ['/'],
     },
@@ -40,6 +43,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(configService.getOrThrow('app.port', { infer: true }));
+  await app.listen(configService.getOrThrow<string>('SOCIAL_RECOVERY_SERVICE_PORT', { infer: true }));
 }
 void bootstrap();

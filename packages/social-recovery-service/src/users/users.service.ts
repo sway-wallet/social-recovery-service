@@ -21,7 +21,7 @@ export class UsersService {
   ) {}
 
   async create(createProfileDto: CreateUserDto): Promise<User> {
-    const clonedPayload = {
+    const clonedPayload: CreateUserDto = {
       provider: AuthProvidersEnum.email,
       ...createProfileDto,
     };

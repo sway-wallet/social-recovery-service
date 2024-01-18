@@ -1,4 +1,6 @@
-FROM node:20.11.0-alpine
+ARG appPort
+ARG nodeVersion
+FROM node:${nodeVersion}-alpine
 
 RUN apk add --no-cache bash
 RUN npm i -g @nestjs/cli typescript ts-node
@@ -19,4 +21,5 @@ WORKDIR /usr/src/app
 RUN if [ ! -f .env ]; then cp env-example-relational .env; fi
 RUN npm run build
 
+EXPOSE $appPort
 CMD ["/opt/startup.relational.dev.sh"]

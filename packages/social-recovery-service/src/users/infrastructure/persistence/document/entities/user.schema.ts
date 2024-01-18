@@ -38,7 +38,7 @@ export class UserSchemaClass extends EntityDocumentHelper {
   @Prop({
     default: AuthProvidersEnum.email,
   })
-  provider: string;
+  provider?: string;
 
   @Expose({ groups: ['me', 'admin'], toPlainOnly: true })
   @Prop({

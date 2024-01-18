@@ -30,6 +30,8 @@ import { MailerModule } from './mailer/mailer.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './database/mongoose-config.service';
 import { DatabaseConfig } from './database/config/database-config.type';
+import { WalletModule } from './wallet/wallet.module';
+import { CryptographyModule } from './cryptography/cryptography.module';
 
 @Module({
   imports: [
@@ -92,6 +94,8 @@ import { DatabaseConfig } from './database/config/database-config.type';
     MailModule,
     MailerModule,
     HomeModule,
+    WalletModule,
+    CryptographyModule,
   ],
 })
 export class AppModule {}

@@ -24,8 +24,8 @@ import { User } from '../../../../domain/user';
   name: 'user',
 })
 export class UserEntity extends EntityRelationalHelper implements User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   // For "string | null" we need to use String type.
   // More info: https://github.com/typeorm/typeorm/issues/2567
@@ -47,7 +47,7 @@ export class UserEntity extends EntityRelationalHelper implements User {
 
   @Column({ default: AuthProvidersEnum.email })
   @Expose({ groups: ['me', 'admin'] })
-  provider: string;
+  provider?: string;
 
   @Index()
   @Column({ type: String, nullable: true })

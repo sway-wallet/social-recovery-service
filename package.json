@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "prepare": "husky install",
-    "docker": "docker-compose up --d",
+    "docker": "docker compose up --force-recreate --build -d",
     "build": "bun run --cwd 'packages/social-recovery-service' --cwd 'packages/guardian-service' --cwd 'apps' build",
     "test": "bun run --cwd 'packages/social-recovery-service' --cwd 'packages/guardian-service' test",
     "test:cov": "bun run --cwd 'packages/social-recovery-service' --cwd 'packages/guardian-service' test:cov",
