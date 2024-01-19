@@ -8,7 +8,6 @@ import { NullableType } from 'src/utils/types/nullable.type';
 import { SortWalletDto } from './dto/query-wallet.dto';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
 import { DeepPartial } from 'typeorm';
-import { DiffieHellman } from 'crypto';
 
 @Injectable()
 export class WalletService {
@@ -52,17 +51,22 @@ export class WalletService {
     }
 
     const diffieHellmanEncryptedPrivateKeySeed = clonedPayload.diffieHellmanEncryptedPrivateKeySeed;
+    let decryptedPrivateKeySeed: string | null = null;
     if (diffieHellmanEncryptedPrivateKeySeed) {
-      //const decryptedPrivateKeySeed
+      decryptedPrivateKeySeed = await this.cryptographyService.decryptAes256Gcm(diffieHellmanEncryptedPrivateKeySeed, deffieHellmanSessionId);
     }
 
     const diffieHellmanEncryptedSeed = clonedPayload.diffieHellmanEncryptedSeed;
+    let decryptedSeed: string | null = null;
     if (diffieHellmanEncryptedSeed) {
-      //const decryptedSeed
+      decryptedSeed = await this.cryptographyService.decryptAes256Gcm(diffieHellmanEncryptedSeed, deffieHellmanSessionId);
     }
 
     const encryptedSeed: string | null = await this.cryptographyService.encryptAes256Gcm(decryptedSeed + ':' +user.id);
     const encryptedPrivateKeySeed: string | null = await this.cryptographyService.encryptAes256Gcm(decryptedPrivateKeySeed + ':' +user.id);
+
+    clonedPayload.encryptedSeed = encryptedSeed;
+    clonedPayload.encryptedPrivateKeySeed = encryptedPrivateKeySeed;
 
     return this.walletRepository.create(clonedPayload);
   }

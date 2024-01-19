@@ -28,8 +28,10 @@ export class CryptographyService {
 
   async createDiffieHellman(): Promise<{ sessionId: string, prime: string, generator: string, publicKey: string}> {
     const sessionId: string = randomBytes(16).toString('hex');
+    console.log('sessionId', sessionId);
     const serverDH: DiffieHellman = createDiffieHellman(2048);
-    const serverPublicKey: Buffer = serverDH.getPublicKey();
+    const serverPublicKey: Buffer = serverDH.generateKeys();
+    console.log('serverPublicKey', serverPublicKey.toString('hex'));
 
      // Save the instance with the session ID
      this.serverDHInstances[sessionId] = serverDH;

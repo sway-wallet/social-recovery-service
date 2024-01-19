@@ -14,14 +14,6 @@ export class CreateWalletDto {
     @IsOptional()
     publicKey?: string;
 
-    // @ApiProperty()
-    // @IsOptional()
-    // encodedPrivateKeySeed?: string;
-
-    // @ApiProperty()
-    // @IsOptional()
-    // encodedSeed?: string;
-
     @ApiProperty()
     @IsNotEmpty()
     diffieHellmanSessionId: string;
@@ -37,4 +29,10 @@ export class CreateWalletDto {
     @ApiProperty()
     @IsOptional()
     diffieHellmanEncryptedSeed: string;
+
+    @IsOptional()
+    encryptedSeed: string;
+
+    @IsOptional()
+    encryptedPrivateKeySeed: string;
 }

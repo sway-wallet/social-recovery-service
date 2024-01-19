@@ -12,7 +12,7 @@ export class CryptographyController {
   @SerializeOptions({
     groups: ['admin'],
   })
-  @Post()
+  @Post('diffie-hellman/start')
   @HttpCode(HttpStatus.CREATED)
   start(): Promise<{ sessionId: string, prime: string, generator: string, publicKey: string}> {
     return this.cryptographyService.createDiffieHellman();
@@ -21,7 +21,7 @@ export class CryptographyController {
   @SerializeOptions({
     groups: ['admin'],
   })
-  @Post()
+  @Post('diffie-hellman/exchange/:sessionId/:clientPublicKey')
   @HttpCode(HttpStatus.CREATED)
   @ApiParam({
     name: 'sessionId',
